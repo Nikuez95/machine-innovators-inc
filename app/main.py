@@ -69,5 +69,3 @@ def analyze_sentiment(data: TextInput):
     sentiment = get_sentiment(data.text)
     return {"input_text": data.text, "sentiment_result": sentiment[0]}
 
-
-# Added comment for test Github Actions integration
