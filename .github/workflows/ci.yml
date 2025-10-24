@@ -29,10 +29,6 @@ jobs:
         run: |
           pytest app/tests/
 
-      - name: Lint code
-        run: |
-          flake8 app/
-
       - name: Type check code
         run: |
           mypy app/

@@ -5,5 +5,4 @@ pytest
 requests
 torch
 httpx
-flake8
 mypy

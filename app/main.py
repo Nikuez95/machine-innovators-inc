@@ -5,6 +5,7 @@ from model import get_sentiment
 
 app = FastAPI()
 
+
 class TextInput(BaseModel):
     text: str
 
@@ -68,4 +69,3 @@ def root():
 def analyze_sentiment(data: TextInput):
     sentiment = get_sentiment(data.text)
     return {"input_text": data.text, "sentiment_result": sentiment[0]}
-
