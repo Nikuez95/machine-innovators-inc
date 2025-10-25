@@ -2,3 +2,4 @@
 app/__pycache__
 app/tests/__pycache__
 app/.pytest_cache
+dags/__pycache__
