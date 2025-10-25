@@ -3,7 +3,6 @@ fastapi
 uvicorn
 pytest
 requests
-torch
 httpx
 mypy
 flake8

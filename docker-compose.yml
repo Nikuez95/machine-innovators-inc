@@ -24,6 +24,8 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+    volumes:
+      - grafana-storage:/var/lib/grafana
 
   airflow:
     image: puckel/docker-airflow:1.10.9
@@ -35,3 +37,4 @@ services:
 
 volumes:
   dags:
+  grafana-storage: {}
