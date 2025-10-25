@@ -2,7 +2,7 @@
 
 # Importo le librerie necessarie
 from fastapi.testclient import TestClient
-from main import app
+from app.main import app
 
 # Creo il client di test
 client = TestClient(app)
