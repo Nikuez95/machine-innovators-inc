@@ -1,10 +1,8 @@
 transformers
 fastapi
 uvicorn
-pytest
 requests
 httpx
-mypy
 flake8
 prometheus-fastapi-instrumentator
 torch
