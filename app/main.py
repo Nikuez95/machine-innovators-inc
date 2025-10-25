@@ -6,9 +6,13 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from .model import get_sentiment
+from prometheus_fastapi_instrumentator import Instrumentator
 
 # Creo l'istanza dell'app FastAPI
 app = FastAPI()
+
+# Configuro l'instrumentazione per Prometheus così da monitorare le metriche dell'API
+Instrumentator().instrument(app).expose(app)
 
 
 # Definisco il modello Pydantic per la richiesta di input

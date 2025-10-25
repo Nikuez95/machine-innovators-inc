@@ -1,0 +1,1 @@
+# File __init__.py per rendere la directory app/ un package Python valido
