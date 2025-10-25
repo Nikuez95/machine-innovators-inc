@@ -5,14 +5,16 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
-from model import get_sentiment
+from .model import get_sentiment
 
 # Creo l'istanza dell'app FastAPI
 app = FastAPI()
 
+
 # Definisco il modello Pydantic per la richiesta di input
 class TextInput(BaseModel):
     text: str
+
 
 # Definisco la route principale che restituisce una semplice interfaccia HTML
 @app.get("/", response_class=HTMLResponse)
@@ -68,6 +70,7 @@ def root():
     </html>
     """
     return HTMLResponse(content=html_content)
+
 
 # Definisco la route per l'analisi del sentiment
 @app.post("/analyze")

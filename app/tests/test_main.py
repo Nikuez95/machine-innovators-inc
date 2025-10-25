@@ -7,11 +7,13 @@ from main import app
 # Creo il client di test
 client = TestClient(app)
 
+
 # Test per la route principale
 def test_root():
     response = client.get("/")
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
+
 
 # Test per l'analisi del sentiment positivo
 def test_sentiment_positive():
@@ -20,6 +22,7 @@ def test_sentiment_positive():
     data = response.json()
     assert data["sentiment_result"]["label"] == "positive"
 
+
 # Test per l'analisi del sentiment negativo
 def test_sentiment_negative():
     response = client.post("/analyze", json={"text": "I hate bugs."})
@@ -27,9 +30,10 @@ def test_sentiment_negative():
     data = response.json()
     assert data["sentiment_result"]["label"] == "negative"
 
+
 # Test per l'analisi del sentiment neutro
 def test_sentiment_neutral():
-    response = client.post("/analyze", json={"text": "The sky is blue."})
+    response = client.post("/analyze", json={"text": "I'm here."})
     assert response.status_code == 200
     data = response.json()
     assert data["sentiment_result"]["label"] == "neutral"
