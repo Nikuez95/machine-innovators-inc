@@ -20,7 +20,10 @@ def test_sentiment_positive():
     response = client.post("/analyze", json={"text": "I love programming!"})
     assert response.status_code == 200
     data = response.json()
-    assert data["sentiment"]["label"] == "positive"
+    assert data["sentiment"] in {"positive", "neutral", "negative"}
+    assert data["sentiment"] == "positive"
+    assert 0.0 <= data["score"] <= 1.0
+
 
 
 # Test per l'analisi del sentiment negativo
@@ -28,7 +31,8 @@ def test_sentiment_negative():
     response = client.post("/analyze", json={"text": "I hate bugs."})
     assert response.status_code == 200
     data = response.json()
-    assert data["sentiment"]["label"] == "negative"
+    assert data["sentiment"] == "negative"
+    assert 0.0 <= data["score"] <= 1.0
 
 
 # Test per l'analisi del sentiment neutro
@@ -36,4 +40,5 @@ def test_sentiment_neutral():
     response = client.post("/analyze", json={"text": "I'm here."})
     assert response.status_code == 200
     data = response.json()
-    assert data["sentiment"]["label"] == "neutral"
+    assert data["sentiment"] == "neutral"
+    assert 0.0 <= data["score"] <= 1.0
