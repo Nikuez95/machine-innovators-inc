@@ -1,13 +1,19 @@
-# Per prima cosa, ho installato la libreria transformers:
-from transformers import pipeline
+from functools import lru_cache
+from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
 
-# Ho creato una pipeline di classificazione del testo utilizzando un modello pre-addestrato per l'analisi del sentiment.
-pipe = pipeline(
-    "text-classification", model="cardiffnlp/twitter-roberta-base-sentiment-latest"
-)
+MODEL_NAME = "cardiffnlp/twitter-roberta-base-sentiment-latest"
 
+@lru_cache(maxsize=1)
+def get_pipe():
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    model = AutoModelForSequenceClassification.from_pretrained(
+        MODEL_NAME,
+        low_cpu_mem_usage=False,
+    )
+    model.eval()
+    return pipeline("text-classification", model=model, tokenizer=tokenizer, device=-1)
 
-# Funzione per ottenere il sentiment di un testo dato
-def get_sentiment(text: str):
-    result = pipe(text)
-    return result
+def get_sentiment(text: str) -> dict:
+    out = get_pipe()(text)
+    r = out[0]
+    return {"label": r["label"], "score": float(r["score"])}

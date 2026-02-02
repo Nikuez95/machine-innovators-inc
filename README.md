@@ -3,7 +3,7 @@
 ![CI/CD Status](https://github.com/Nikuez95/machine-innovators-inc/actions/workflows/CI-CD.yml/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3.9-blue?logo=python)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.68-009688?logo=fastapi)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.128-009688?logo=fastapi)
 
 ## 📖 Descrizione del Progetto
 
@@ -60,12 +60,16 @@ Una volta avviato, i servizi sono accessibili ai seguenti indirizzi locali:
 3. Prometheus - **`http://localhost:9090`**
 4. Airflow - **`http://localhost:8080`** / Username: airflow / Password: airflow
 
+![alt text](./screenshots/grafana.png)
+
 ---
 
 ## 💻 Esempi di Utilizzo
 
 Test via Browser
 Vai su **`http://localhost:8000`** per utilizzare l'interfaccia HTML semplificata per testare il sentiment di una frase.
+
+![alt text](./screenshots/homepage.png)
 
 Test via cURL
 Puoi interrogare direttamente l'API dal terminale:
@@ -78,7 +82,7 @@ Risposta attesa:
 ```json
 {
   "sentiment": "positive",
-  "score": 0.98
+  "score": 0.94
 }
 ```
 ---

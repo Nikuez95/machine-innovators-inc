@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ app_title }}</title>
+    <style>
+      body { font-family: sans-serif; margin: 2em; background: #f4f4f4; }
+      h1 { color: #333; margin-bottom: 0.2rem; }
+      .sub { color: #666; margin-top: 0; }
+      .card {
+        background: #fff; border: 1px solid #ddd; border-radius: 10px;
+        padding: 16px; max-width: 720px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      }
+      .row { display: flex; gap: 10px; align-items: center; }
+      input[type="text"] {
+        flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc;
+        outline: none;
+      }
+      button {
+        padding: 10px 14px; border-radius: 8px; border: 0; cursor: pointer;
+        background: #111827; color: #fff; font-weight: 600;
+      }
+      button:disabled { background: #9ca3af; cursor: not-allowed; }
+      .badge {
+        display: inline-block; padding: 6px 10px; border-radius: 999px;
+        font-size: 12px; font-weight: 700; color: #111;
+      }
+      .ok { background: #bbf7d0; }
+      .ko { background: #fecaca; }
+      .muted { color: #6b7280; font-size: 13px; }
+      pre {
+        margin-top: 14px; padding: 12px; border: 1px solid #e5e7eb;
+        background: #0b1020; color: #e5e7eb; border-radius: 10px;
+        overflow: auto;
+      }
+      .topbar { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+      .links a { color:#2563eb; text-decoration:none; font-size: 13px; }
+      .links a:hover { text-decoration:underline; }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <div class="topbar">
+        <div>
+          <h1>{{ app_title }}</h1>
+          <p class="sub">Version {{ app_version }} · {{ description }}</p>
+        </div>
+        <div class="links">
+          <a href="/docs">Swagger</a> ·
+          <a href="/metrics">Metrics</a>
+        </div>
+      </div>
+
+      <p class="muted">
+        Status modello:
+        <span id="ready-badge" class="badge ko">checking…</span>
+      </p>
+
+      <div class="row">
+        <input
+          type="text"
+          id="text-input"
+          placeholder="Es. I love this project!"
+          maxlength="500"
+        />
+        <button id="analyze-btn" onclick="analyzeText()" disabled>Analizza</button>
+      </div>
+
+      <pre id="results">{ "..." }</pre>
+    </div>
+
+    <script>
+      async function checkReady() {
+        const badge = document.getElementById('ready-badge');
+        const btn = document.getElementById('analyze-btn');
+
+        try {
+          const res = await fetch('/ready');
+          const data = await res.json();
+
+          if (data.ready) {
+            badge.className = 'badge ok';
+            badge.innerText = 'READY';
+            btn.disabled = false;
+          } else {
+            badge.className = 'badge ko';
+            badge.innerText = 'NOT READY';
+            btn.disabled = true;
+          }
+        } catch (e) {
+          badge.className = 'badge ko';
+          badge.innerText = 'ERROR';
+          btn.disabled = true;
+        }
+      }
+
+      async function analyzeText() {
+        const textInput = document.getElementById('text-input').value;
+        const resultsDiv = document.getElementById('results');
+
+        if (!textInput || !textInput.trim()) {
+          resultsDiv.innerText = JSON.stringify({ error: "Input vuoto" }, null, 2);
+          return;
+        }
+
+        resultsDiv.innerText = JSON.stringify({ status: "running..." }, null, 2);
+
+        const response = await fetch('/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: textInput.trim() })
+        });
+
+        let data;
+        try {
+          data = await response.json();
+        } catch (e) {
+          data = { error: "Non-JSON response", status: response.status };
+        }
+
+        if (!response.ok) {
+          data = { error: "Request failed", status: response.status, detail: data };
+        }
+
+        resultsDiv.innerText = JSON.stringify(data, null, 2);
+      }
+
+      // run on load
+      checkReady();
+    </script>
+  </body>
+</html>
