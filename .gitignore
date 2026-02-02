@@ -4,3 +4,4 @@ app/tests/__pycache__
 app/.pytest_cache
 dags/__pycache__
 .pytest_cache
+.env
