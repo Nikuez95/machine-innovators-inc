@@ -1,13 +1,23 @@
+## 🔐 Security note (Demo environment)
+Questo progetto è pensato come demo locale (colloquio / portfolio).  
+Alcune configurazioni (es. credenziali di default per servizi come Grafana/Airflow) sono intenzionalmente semplificate per ridurre friction in setup.
+
+**In produzione** le prossime iterazioni prevedono:
+- gestione credenziali via `.env` / secret manager
+- Airflow 2.x con metadata DB Postgres e secrets backend
+
+---
+
 # 🚀 MachineInnovators Inc. - MLOps Sentiment Analysis Pipeline
 
 ![CI/CD Status](https://github.com/Nikuez95/machine-innovators-inc/actions/workflows/CI-CD.yml/badge.svg)
-![Python](https://img.shields.io/badge/Python-3.9-blue?logo=python)
+![Python](https://img.shields.io/badge/Python-3.13.9-blue?logo=python)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.128-009688?logo=fastapi)
 
 ## 📖 Descrizione del Progetto
 
-Questa repository ospita l'implementazione end-to-end di una pipeline MLOps per **MachineInnovators Inc.** L'obiettivo primario è fornire un'infrastruttura di produzione scalabile, monitorabile e containerizzata per un modello di **Sentiment Analysis** basato su RoBERTa.
+Questa repository ospita l'implementazione end-to-end di una pipeline MLOps per **MachineInnovators Inc.** L'obiettivo primario è fornire un'infrastruttura production-inspired, monitorabile e containerizzata per un modello di **Sentiment Analysis** basato su RoBERTa.
 
 Il sistema è progettato seguendo l'architettura a microservizi, completamente orchestrato tramite Docker Compose, garantendo riproducibilità e facilità di deployment.
 
@@ -42,8 +52,8 @@ Il sistema è composto da 4 servizi interconnessi:
 L'intero ambiente si avvia con un singolo comando. Clona la repository e lancia la build:
 
 ```bash
-git clone https://github.com/Nikuez95/machine-innovators-inc
-cd machine-innovators-mlops
+git clone https://github.com/Nikuez95/machine-innovators-inc.git
+cd machine-innovators-inc
 
 # Build e avvio dei container in background
 docker-compose up -d --build
@@ -56,7 +66,7 @@ docker-compose up -d --build
 Una volta avviato, i servizi sono accessibili ai seguenti indirizzi locali:
 
 1. API & UI Test - **`http://localhost:8000`**
-2. Grafana - **`http://localhost:3000`** / Username: admin / Password: admin
+2. Grafana - **`http://localhost:3000`** / Devi creare file .env (vedi .env.example) per poter accedere
 3. Prometheus - **`http://localhost:9090`**
 4. Airflow - **`http://localhost:8080`** / Username: airflow / Password: airflow
 
@@ -114,15 +124,9 @@ pytest
 ## 🔮 Roadmap e Sviluppi Futuri
 Basato sui feedback ricevuti, le prossime iterazioni del progetto includeranno:
 
-[ ] Interactive Demo: Aggiunta di un Notebook Google Colab per demo interattiva.
+- [ ] Interactive Demo: Aggiunta di un Notebook Google Colab per demo interattiva.
 
-[ ] Training Reale: Implementazione script train.py completo con metriche di valutazione reali (F1, Accuracy) in sostituzione della simulazione attuale.
-
-[ ] Security Hardening: Rimozione credenziali hardcoded (uso di .env) e configurazione user non-root nei Dockerfile.
-
-[ ] Advanced Monitoring: Aggiunta metriche specifiche per ML (Drift detection, distribuzione confidenza).
-
-[ ] Frontend Decoupling: Migrazione dell'interfaccia HTML inline verso una soluzione Streamlit o Jinja2 templates separati.
+- [ ] Training Reale: Implementazione script train.py completo con metriche di valutazione reali (F1, Accuracy) in sostituzione della simulazione attuale (solo print echo).
 
 
 
