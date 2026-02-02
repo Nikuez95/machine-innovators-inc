@@ -25,7 +25,6 @@ def test_sentiment_positive():
     assert 0.0 <= data["score"] <= 1.0
 
 
-
 # Test per l'analisi del sentiment negativo
 def test_sentiment_negative():
     response = client.post("/analyze", json={"text": "I hate bugs."})
